@@ -84,6 +84,7 @@ void  MainWindow::timeOut()
             //turn off media player
             process.kill();
             process.close();
+            process.start("mpx.exe");
 
 
         }
@@ -97,6 +98,7 @@ void  MainWindow::timeOut()
         //turn off media player
         process.kill();
         process.close();
+        process.start("mpx.exe");
     }
 }
 
