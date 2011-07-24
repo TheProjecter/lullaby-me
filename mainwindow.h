@@ -44,8 +44,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QProcess *process;
     int startMilliseconds;
+
 
 protected slots:
     void timeOut();
@@ -56,6 +56,7 @@ private slots:
     void on_btn_sleep_clicked();
     void on_btn_close_clicked();
     void on_btn_hide_clicked();
+    void on_btn_help_clicked();
 
     void on_btn_new_clicked();
 

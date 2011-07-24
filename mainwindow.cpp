@@ -19,6 +19,7 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QDebug>
+#include <QThread>
 
 QString colorOn = "background-color: rgb(0, 255, 0); color: white;";
 QString colorOff = "background-color: rgb(170, 170, 170); color: white;";
@@ -31,6 +32,8 @@ QStringList *timelist;
 QStringList *daylist;
 QStringList *soundlist;
 QStringList *switchlist;
+QProcess process;
+
 
 bool bAdd = false;
 int nPage, nUnit;
@@ -41,11 +44,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->showFullScreen();
 
-    load_alarms();
-    init_alarms();
+   // load_alarms();
+   // init_alarms();
     time_checker();
 
-    process = new QProcess(this);
+    //process = new QProcess(this);
 
     //Setup the timer object with an interval of one second
     countdown = new QTimer(); //Construct the timer
@@ -79,7 +82,10 @@ void  MainWindow::timeOut()
 
             //turn off radio
             //turn off media player
-            process->close();
+            process.kill();
+            process.close();
+
+
         }
     }
     else
@@ -89,7 +95,8 @@ void  MainWindow::timeOut()
 
         //turn off radio
         //turn off media player
-        process->close();
+        process.kill();
+        process.close();
     }
 }
 
@@ -105,7 +112,8 @@ void MainWindow::on_btn_start_clicked(){
     startMilliseconds=seconds;
 
     countdown->start(); //Start the timer
-    process->start("mpx.exe"); //Start music player
+    process.start("mpx.exe");
+
 
 }
 
@@ -133,7 +141,7 @@ void MainWindow::update()
                     QString status = switchlist->at(i);
                     if(status == "On"){
                         // app url provided by Gian
-                        process->start("Z:\sys\bin\mpx.exe");
+                        process.start("mpx.exe");
                     }
                 }
             }
@@ -143,7 +151,7 @@ void MainWindow::update()
         ui->lcdNumber_2->setText(ui->lcdNumber_2->text());
     }
     else{
-        process->close();
+        process.kill();
     }
 
     time_checker();
@@ -263,13 +271,17 @@ void MainWindow::on_btn_alarm_clicked(){
     ui->stackedWidget->setCurrentIndex(0);
 }
 
+void MainWindow::on_btn_help_clicked(){
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
 void MainWindow::on_btn_new_clicked(){
     ui->stackedWidget->setCurrentIndex(1);
     bAdd = true;
 }
 
 void MainWindow::on_btn_sleep_clicked(){
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_btn_sun_clicked(){
@@ -893,5 +905,5 @@ void MainWindow::showExpanded()
 
 void MainWindow::on_btn_hide_clicked()
 {
-    hide();
+    lower();
 }
