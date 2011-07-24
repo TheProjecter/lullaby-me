@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new/images">
+        <file>imgs/down.png</file>
+        <file>imgs/left.png</file>
+        <file>imgs/right.png</file>
+        <file>imgs/sleep.png</file>
+        <file>imgs/star.png</file>
+        <file>imgs/closeicon.png</file>
+        <file>imgs/homeicon.png</file>
+        <file>imgs/hideicon.png</file>
+    </qresource>
+</RCC>
