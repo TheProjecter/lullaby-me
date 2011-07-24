@@ -7,7 +7,7 @@ DEPLOYMENTFOLDERS = # file1 dir1
 symbian:TARGET.UID3 = 0x20041FB2
 
 # Allow network access on Symbian
-symbian:TARGET.CAPABILITY += NetworkServices
+symbian:TARGET.CAPABILITY += NetworkServices PowerMgmt
 
 # If your application uses the Qt Mobility libraries, uncomment
 # the following lines and add the respective components to the 

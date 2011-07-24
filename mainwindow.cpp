@@ -8,7 +8,7 @@
 */
 
 //DONE: Pad 0 before single digit
-//TOD0: Make music stop when timer stops
+//DONE: Make music stop when timer stops
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -32,8 +32,11 @@ QStringList *daylist;
 QStringList *soundlist;
 QStringList *switchlist;
 
+QTimer *killCountDown;
+
 bool bAdd = false;
 int nPage, nUnit;
+int killMusicCount;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -51,8 +54,32 @@ MainWindow::MainWindow(QWidget *parent)
     countdown = new QTimer(); //Construct the timer
     countdown->setInterval(1000); //One second interval
     countdown->setSingleShot(false); //Multiple shot. This means that the signal timeout will be signed each second
+    killCountDown = new QTimer();
+    connect(killCountDown, SIGNAL(timeout()), this, SLOT(startProcess()));
     connect(countdown,SIGNAL(timeout()),this,SLOT(timeOut())); //Connects the timeout signal to my slot timeOut
 
+}
+
+/**
+  * This method kills the running process (music player)
+    Note: Calling terminate() stops the mpx.exe program,
+        but the music still keeps on playing. Workaround is
+        to restart the music player, after stopping it, to stop
+        the music.
+  */
+void MainWindow::killProcess()
+{
+    process->close();
+    process->terminate();
+
+    killCountDown->start(2000);
+}
+
+// This method starts the music player
+void MainWindow::startProcess()
+{
+    process->start("mpx.exe");
+    killCountDown->stop();
 }
 
 void  MainWindow::timeOut()
@@ -79,7 +106,7 @@ void  MainWindow::timeOut()
 
             //turn off radio
             //turn off media player
-            process->close();
+            killProcess();
         }
     }
     else
@@ -89,8 +116,8 @@ void  MainWindow::timeOut()
 
         //turn off radio
         //turn off media player
-        process->close();
-    }
+        killProcess();
+    }   
 }
 
 void MainWindow::on_btn_start_clicked(){
@@ -105,7 +132,9 @@ void MainWindow::on_btn_start_clicked(){
     startMilliseconds=seconds;
 
     countdown->start(); //Start the timer
-    process->start("mpx.exe"); //Start music player
+
+    if(process->state() == QProcess::NotRunning)
+        startProcess(); //Start music player
 
 }
 
@@ -133,7 +162,7 @@ void MainWindow::update()
                     QString status = switchlist->at(i);
                     if(status == "On"){
                         // app url provided by Gian
-                        process->start("Z:\sys\bin\mpx.exe");
+                        startProcess();
                     }
                 }
             }
@@ -143,10 +172,12 @@ void MainWindow::update()
         ui->lcdNumber_2->setText(ui->lcdNumber_2->text());
     }
     else{
-        process->close();
+        killProcess();
+        qDebug("Time end");
     }
 
     time_checker();
+    qDebug("Check time");
 }
 
 void MainWindow::load_alarms(){

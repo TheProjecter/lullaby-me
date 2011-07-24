@@ -46,9 +46,11 @@ private:
     Ui::MainWindow *ui;
     QProcess *process;
     int startMilliseconds;
+    void killProcess();
 
 protected slots:
     void timeOut();
+    void startProcess();
 
 
 private slots:
