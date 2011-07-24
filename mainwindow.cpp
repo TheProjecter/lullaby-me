@@ -19,6 +19,7 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QDebug>
+#include <QThread>
 
 QString colorOn = "background-color: rgb(0, 255, 0); color: white;";
 QString colorOff = "background-color: rgb(170, 170, 170); color: white;";
@@ -31,6 +32,8 @@ QStringList *timelist;
 QStringList *daylist;
 QStringList *soundlist;
 QStringList *switchlist;
+QProcess process;
+
 
 QTimer *killCountDown;
 
@@ -44,8 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->showFullScreen();
 
-    load_alarms();
-    init_alarms();
+   // load_alarms();
+   // init_alarms();
     time_checker();
 
     process = new QProcess(this);
@@ -294,13 +297,17 @@ void MainWindow::on_btn_alarm_clicked(){
     ui->stackedWidget->setCurrentIndex(0);
 }
 
+void MainWindow::on_btn_help_clicked(){
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
 void MainWindow::on_btn_new_clicked(){
     ui->stackedWidget->setCurrentIndex(1);
     bAdd = true;
 }
 
 void MainWindow::on_btn_sleep_clicked(){
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_btn_sun_clicked(){
@@ -924,5 +931,5 @@ void MainWindow::showExpanded()
 
 void MainWindow::on_btn_hide_clicked()
 {
-    hide();
+    lower();
 }

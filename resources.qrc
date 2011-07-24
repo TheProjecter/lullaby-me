@@ -8,5 +8,6 @@
         <file>imgs/closeicon.png</file>
         <file>imgs/homeicon.png</file>
         <file>imgs/hideicon.png</file>
+        <file>imgs/helpicon.png</file>
     </qresource>
 </RCC>
