@@ -72,7 +72,7 @@ void MainWindow::killProcess()
     process->close();
     process->terminate();
 
-    killCountDown->start(2000);
+    killCountDown->start(1000);
 }
 
 // This method starts the music player
