@@ -32,8 +32,7 @@ QStringList *timelist;
 QStringList *daylist;
 QStringList *soundlist;
 QStringList *switchlist;
-QProcess process;
-
+QProcess *process;
 
 QTimer *killCountDown;
 
