@@ -26,7 +26,7 @@ qtcAddDeployment()
 symbian {
     ICON = icon.svg
     TARGET.UID3 = 0x20041FB2
-    # TARGET.CAPABILITY +=
+    TARGET.CAPABILITY = PowerMgmt
     TARGET.EPOCSTACKSIZE = 0x14000
     TARGET.EPOCHEAPSIZE = 0x020000 0x800000
     LIBS += -lcone -leikcore -lavkon
