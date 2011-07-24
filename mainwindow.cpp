@@ -7,7 +7,7 @@
   may offer an updated version of it.
 */
 
-//TODO: Pad 0 before single digit
+//DONE: Pad 0 before single digit
 //TOD0: Make music stop when timer stops
 
 #include "mainwindow.h"
@@ -62,14 +62,15 @@ void  MainWindow::timeOut()
     int Seconds;
     if (startMilliseconds - 1000 >= 0) //If not timeout
     {
-        startMilliseconds = startMilliseconds - 1000; //Reduce the milliseconds with 1 secod (1000)
+        startMilliseconds = startMilliseconds - 1000; //Reduce the milliseconds with 1 second (1000)
         //Convert milliseconds to H:M:S
     //    Hours = startMilliseconds / (1000*60*60);
         Minutes = (startMilliseconds % (1000*60*60)) / (1000*60);
         Seconds = ((startMilliseconds % (1000*60*60)) % (1000*60)) / 1000;
 
-      ui->lcdNumber_4->setText(QString::number(Minutes));
-      ui->lcdNumber_2->setText(QString::number(Seconds));
+        QString s; // temporary QString object for sprintf
+        ui->lcdNumber_4->setText(s.sprintf("%02d", Minutes));
+        ui->lcdNumber_2->setText(s.sprintf("%02d", Seconds));
 
         if (startMilliseconds <=0) //If timeout
         {
@@ -104,7 +105,7 @@ void MainWindow::on_btn_start_clicked(){
     startMilliseconds=seconds;
 
     countdown->start(); //Start the timer
-    process->start("Z:\sys\bin\mpx.exe"); //Start music player
+    process->start("mpx.exe"); //Start music player
 
 }
 
